@@ -93,7 +93,7 @@ def all_students_tuple_list(filename):
             line = line.strip()
             all_info_list = line.split("|")
 
-            if all_info_list[-3] != "":
+            if all_info_list[-3]:
                 name = " ".join(all_info_list[:2])
                 student_tup = (name, all_info_list[2], all_info_list[3], all_info_list[4])
                 student_list.append(student_tup)
@@ -178,10 +178,14 @@ def find_house_members_by_student_name(student_list):
      """
 
     search_name = input("Choose a student: ")
+    house_name = None
     for student in student_list:
         if student[0] == search_name:
             house_name = student[1]
             cohort_year = student[-1]
+    if not house_name:
+        return "Student not found."
+
 
     print(f"{search_name} was in house {house_name} in the {cohort_year} cohort.")
     print("The following students are also in their house:")
