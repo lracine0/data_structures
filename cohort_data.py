@@ -34,15 +34,40 @@ def sort_by_cohort(filename):
     [['Harry Potter', 'Mandy Brocklehurst', 'Ron Weasley', 'Oliver Wood', 'Colin Creevey', 'Cho Chang', 'Michael Corner', 'Draco Malfoy', 'Seamus Finnigan', 'Eddie Carmichael', 'Theodore Nott', 'Terence Higgs', 'Hermione Granger', 'Penelope Clearwater', 'Angelina Johnson', 'Dennis Creevey'], ['Neville Longbottom', 'Cedric Diggory', 'Pansy Parkinson', 'Anthony Goldstein', 'Padma Patil', 'Luna Lovegood', 'Eleanor Branstone', 'Lee Jordan', 'Marietta Edgecombe', 'Andrew Kirke', 'Ginny Weasley', 'Mary Macdonald', 'Blaise Zabini', 'Natalie McDonald', 'Adrian Pucey', 'Hannah Abbott', 'Graham Pritchard', 'Susan Bones', 'Roger Davies', 'Owen Cauldwell'], ['Laura Madley', 'Orla Quirke', 'Parvati Patil', 'Eloise Midgeon', 'Zacharias Smith', 'Cormac McLaggen', 'Lisa Turpin', 'Demelza Robins', 'Ernie Macmillan', 'Millicent Bullstrode', 'Percy Weasley', 'Jimmy Peakes', 'Justin Finch-Fletchley', 'Miles Bletchley', 'Malcolm Baddock'], ['Marcus Belby', 'Euan Abercrombie', 'Vincent Crabbe', 'Ritchie Coote', 'Katie Bell', 'Terry Boot', 'Lavender Brown', 'Gregory Goyle', 'Marcus Flint', 'Dean Thomas', 'Jack Sloper', 'Rose Zeller', 'Stewart Ackerley', 'Fred Weasley', 'George Weasley', 'Romilda Vane', 'Alicia Spinnet', 'Kevin Whitby'], ['Friendly Friar', 'Grey Lady', 'Nearly Headless Nick', 'Bloody Baron']]
     """
 
-    all_students = []
     winter_16 = []
     spring_16 = []
     summer_16 = []
     fall_15 = []
     ghosts = []
 
-    # Code goes here
+    all_students = [fall_15, winter_16, spring_16, summer_16, ghosts]
+    cohorts = [(0, 'Fall 2015'), (1, 'Winter 2016'), (2, 'Spring 2016'), (3, 'Summer 2016'), (4, 'G')]
 
+    with open(filename, 'r') as f:
+        for line in f.readlines():
+            student_info = line.strip().split('|')
+            cohort = student_info[-1]
+            if cohort == 'I':
+                continue
+            cohort_idx = [x[0] for x in cohorts if x[1] == cohort][0]
+            all_students[cohort_idx].append(" ".join(student_info[:2]))
+
+
+    # with open(filename, 'r') as f:
+    #     for line in f.readlines():
+    #         student_info = line.strip().split('|')
+    #         if student_info[-1] == "Winter 2016":
+    #             winter_16.append(" ".join(student_info[:2]))
+    #         if student_info[-1] == "Spring 2016":
+    #             spring_16.append(" ".join(student_info[:2]))
+    #         if student_info[-1] == "Summer 2016":
+    #             summer_16.append(" ".join(student_info[:2]))
+    #         if student_info[-1] == "Fall 2015":
+    #             fall_15.append(" ".join(student_info[:2]))
+    #         if student_info[-1] == "G":
+    #             ghosts.append(" ".join(student_info[:2]))
+
+    # all_students.extend([fall_15, winter_16, spring_16, summer_16, ghosts])
     return all_students
 
 
@@ -69,7 +94,29 @@ def hogwarts_by_house(filename):
     ghosts = []
     instructors = []
 
-    # Code goes here
+    with open(filename, 'r') as f:
+        for line in f.readlines():
+            student_info = line.strip().split('|')
+            house = student_info[2]
+           # print(house)
+            if house == "Gryffindor":
+                gryffindor.append(student_info[1])
+            if house == "Slytherin":
+                slytherin.append(student_info[1])
+            if house == "Ravenclaw":
+                ravenclaw.append(student_info[1])
+            if house == "Hufflepuff":
+                hufflepuff.append(student_info[1])
+            if house == "Dumbledore's Army":
+                dumbledores_army.append(student_info[1])
+            if student_info[-1] == 'G':
+                ghosts.append(student_info[1])
+            if student_info[-1] == 'I':
+                instructors.append(student_info[1])
+
+
+    all_hogwarts.extend([sorted(dumbledores_army), sorted(gryffindor), sorted(hufflepuff), \
+                          sorted(ravenclaw),  sorted(slytherin), sorted(ghosts), sorted(instructors)])
 
     return all_hogwarts
 
